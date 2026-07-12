@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jonathan Popham — Agentic Engineering Stack</title>
+<meta name="description" content="How I build software: fleets of AI agents run under a deterministic, eval-first engineering discipline — plans become a dependency-graphed task system, swarms execute in parallel, and nothing ships until it clears a verification gate and an adversarial audit.">
+<style>
+:root{
+  --bg:#0b0f1a; --panel:#101626; --panel2:#0d1322; --ink:#e8edf7; --dim:#93a3c2;
+  --faint:#5d6c8a; --accent:#3ec9b7; --warn:#e0b15f; --danger:#e0685f;
+  --type:#b98bd9; --func:#7cc4a4; --line:#22304f; --line2:#16203a;
+  --mono:ui-monospace,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  background-image:radial-gradient(900px 500px at 78% -10%,rgba(62,201,183,.08),transparent 60%),radial-gradient(700px 500px at 0% 8%,rgba(185,139,217,.06),transparent 55%);}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+.wrap{max-width:1060px;margin:0 auto;padding:0 24px}
+.kick{font-family:var(--mono);font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:var(--accent);margin:0 0 14px}
+
+/* nav */
+header.nav{position:sticky;top:0;z-index:20;backdrop-filter:blur(10px);
+  background:rgba(11,15,26,.72);border-bottom:1px solid var(--line2)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:58px}
+.brand{font-family:var(--mono);font-weight:600;font-size:14px;letter-spacing:.02em}
+.brand b{color:var(--accent)}
+.nav a.link{font-family:var(--mono);font-size:12.5px;color:var(--dim);margin-left:20px}
+.nav a.link:hover{color:var(--ink);text-decoration:none}
+@media(max-width:620px){.nav a.link.hideable{display:none}}
+
+/* hero */
+.hero{padding:76px 0 40px}
+.hero h1{font-size:clamp(30px,5.4vw,54px);line-height:1.05;margin:0 0 20px;font-weight:780;letter-spacing:-.02em;text-wrap:balance}
+.hero h1 .g{color:var(--accent)}
+.hero p.lead{font-size:clamp(16px,2.1vw,19px);color:var(--dim);max-width:64ch;margin:0}
+.hero p.lead b{color:var(--ink);font-weight:600}
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px}
+.chip{font-family:var(--mono);font-size:12px;color:var(--dim);border:1px solid var(--line);
+  background:var(--panel);border-radius:999px;padding:7px 13px}
+.chip b{color:var(--accent);font-variant-numeric:tabular-nums}
+.cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+.btn{font-family:var(--mono);font-size:13px;padding:11px 18px;border-radius:9px;border:1px solid var(--line);
+  background:var(--panel);color:var(--ink);transition:.15s;cursor:pointer}
+.btn:hover{border-color:var(--accent);color:var(--accent);text-decoration:none}
+.btn.primary{background:var(--accent);color:#06221d;border-color:var(--accent);font-weight:700}
+.btn.primary:hover{filter:brightness(1.08);color:#06221d}
+
+section{padding:52px 0;border-top:1px solid var(--line2)}
+.eyebrow{display:flex;align-items:baseline;gap:14px;margin-bottom:26px;flex-wrap:wrap}
+.eyebrow h2{font-size:clamp(21px,3vw,28px);margin:0;font-weight:720;letter-spacing:-.01em}
+.eyebrow .note{color:var(--faint);font-family:var(--mono);font-size:12.5px}
+
+/* pipeline */
+.pipe{display:grid;grid-template-columns:repeat(6,1fr);gap:10px}
+@media(max-width:860px){.pipe{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:440px){.pipe{grid-template-columns:1fr}}
+.stage{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:15px 14px;position:relative;overflow:hidden}
+.stage::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--accent);opacity:.85}
+.stage .n{font-family:var(--mono);font-size:11px;color:var(--faint)}
+.stage h3{font-size:14.5px;margin:6px 0 6px;font-weight:680}
+.stage p{margin:0;font-size:12.7px;color:var(--dim);line-height:1.5}
+.stage .tool{display:inline-block;margin-top:9px;font-family:var(--mono);font-size:10.5px;color:var(--accent);
+  border:1px solid var(--line);border-radius:6px;padding:2px 7px;background:var(--panel2)}
+.flowcap{margin-top:16px;color:var(--faint);font-family:var(--mono);font-size:12px}
+.flowcap b{color:var(--dim)}
+
+/* method cards */
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+@media(max-width:760px){.grid{grid-template-columns:1fr}}
+.card{background:linear-gradient(180deg,var(--panel),var(--panel2));border:1px solid var(--line);border-radius:14px;padding:22px}
+.card h3{margin:0 0 4px;font-size:16.5px;font-weight:700;display:flex;align-items:center;gap:10px}
+.card h3 .dot{width:8px;height:8px;border-radius:50%;background:var(--accent);flex:0 0 auto;box-shadow:0 0 0 4px rgba(62,201,183,.13)}
+.card .role{font-family:var(--mono);font-size:11px;color:var(--faint);text-transform:uppercase;letter-spacing:.12em;margin-bottom:12px}
+.card p{margin:0;color:var(--dim);font-size:14px}
+.card p + p{margin-top:9px}
+.card code{font-family:var(--mono);font-size:12.5px;color:var(--func);background:var(--panel2);border:1px solid var(--line2);border-radius:5px;padding:1px 6px}
+
+/* projects */
+.proj{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+@media(max-width:760px){.proj{grid-template-columns:1fr}}
+.pcard{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px 20px 18px;display:flex;flex-direction:column}
+.pcard .top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}
+.pcard h3{margin:0;font-size:17px;font-weight:720}
+.tag{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;padding:3px 8px;border-radius:6px;text-transform:uppercase}
+.tag.pub{color:#06221d;background:var(--accent)}
+.tag.priv{color:var(--warn);border:1px solid var(--line);background:var(--panel2)}
+.pcard p{margin:0 0 12px;color:var(--dim);font-size:13.6px;flex:1}
+.pcard .meta{font-family:var(--mono);font-size:11.5px;color:var(--faint);margin-bottom:12px;line-height:1.7}
+.pcard .meta b{color:var(--func)}
+.pcard .links{display:flex;gap:14px;font-family:var(--mono);font-size:12.5px}
+.pcard .links a::before{content:"↗ "}
+.pcard .links .none{color:var(--faint)}
+
+/* stats strip */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+@media(max-width:640px){.stats{grid-template-columns:repeat(2,1fr)}}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px;text-align:center}
+.stat .v{font-family:var(--mono);font-size:26px;font-weight:700;color:var(--accent);font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.stat .l{font-size:12px;color:var(--dim);margin-top:5px}
+
+/* bio */
+.bio{display:grid;grid-template-columns:1.4fr 1fr;gap:28px;align-items:start}
+@media(max-width:760px){.bio{grid-template-columns:1fr}}
+.bio p{color:var(--dim);font-size:14.5px}
+.bio p b{color:var(--ink)}
+.facts{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px}
+.facts .row{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px solid var(--line2);font-size:13px}
+.facts .row:last-child{border-bottom:0}
+.facts .row .k{color:var(--faint);font-family:var(--mono);font-size:11.5px}
+.facts .row .val{color:var(--ink);text-align:right}
+
+footer{border-top:1px solid var(--line2);padding:34px 0 60px;color:var(--faint)}
+footer .wrap{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:center}
+footer .who{font-family:var(--mono);font-size:12.5px}
+footer .who b{color:var(--dim)}
+footer a{font-family:var(--mono);font-size:12.5px;margin-left:18px}
+.lead-accent{color:var(--accent)}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <span class="brand">jonathan<b>popham</b> · engineering stack</span>
+    <nav>
+      <a class="link hideable" href="#pipeline">pipeline</a>
+      <a class="link hideable" href="#methods">methods</a>
+      <a class="link hideable" href="#built">built with it</a>
+      <a class="link" href="https://github.com/jonathanpopham">github</a>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <section class="hero" style="border-top:0">
+    <p class="kick">agentic engineering · systems · evals</p>
+    <h1>I ship production software by running <span class="g">fleets of AI agents</span> under a deterministic engineering discipline.</h1>
+    <p class="lead">Not prompt-and-pray. A plan becomes a dependency-graphed task system, PageRank-style triage picks the critical path, agent swarms execute in parallel worktrees, and <b>nothing merges until it clears a verification gate and an adversarial audit.</b> The output is boring in the best way: reproducible, tested, and honest about what it can't prove.</p>
+    <div class="chips">
+      <span class="chip"><b>3</b>&nbsp;public shipped repos</span>
+      <span class="chip"><b>zero-dependency</b>&nbsp;Rust systems</span>
+      <span class="chip"><b>eval-first</b>&nbsp;discipline</span>
+      <span class="chip"><b>multi-model</b>&nbsp;swarm orchestration</span>
+    </div>
+    <div class="cta">
+      <a class="btn primary" href="#pipeline">See the pipeline</a>
+      <a class="btn" href="https://github.com/jonathanpopham/zeugnis">Live proof: Zeugnis ↗</a>
+    </div>
+  </section>
+
+  <!-- PIPELINE -->
+  <section id="pipeline">
+    <div class="eyebrow">
+      <h2>The pipeline — idea to shipped, end to end</h2>
+      <span class="note">every stage produces an artifact; cheap failures happen first</span>
+    </div>
+    <div class="pipe">
+      <div class="stage"><div class="n">01</div><h3>Plan</h3><p>An idea is written as a real plan, then interrogated in "plan-space" before a line of code — where changes are free.</p><span class="tool">idea-wizard</span></div>
+      <div class="stage"><div class="n">02</div><h3>Beads</h3><p>The plan compiles into a dependency-linked task graph — self-documenting issues that encode <i>why</i>, not just what.</p><span class="tool">br / beads</span></div>
+      <div class="stage"><div class="n">03</div><h3>Triage</h3><p>Graph analysis (PageRank-style) surfaces bottlenecks and the next actionable work, so effort lands on the critical path.</p><span class="tool">bv --robot</span></div>
+      <div class="stage"><div class="n">04</div><h3>Swarm</h3><p>Multiple agents — and multiple models — execute in isolated worktrees, adversarially cross-checking each other's work.</p><span class="tool">ntm / worktrees</span></div>
+      <div class="stage"><div class="n">05</div><h3>Gate</h3><p>One script: format, lint, tests, golden evals, a real dogfood run, byte-stability and tamper checks. CI just calls it.</p><span class="tool">verify.sh</span></div>
+      <div class="stage"><div class="n">06</div><h3>Audit</h3><p>An independent agent tries to break the trust core. Findings become beads and get fixed — or published honestly.</p><span class="tool">adversarial review</span></div>
+    </div>
+    <p class="flowcap"><b>The rule that holds it together:</b> distrust green. A test that never failed proves nothing, so I make it fail first. AI writes the code; execution — never the model's confidence — is the arbiter.</p>
+  </section>
+
+  <!-- METHODS -->
+  <section id="methods">
+    <div class="eyebrow">
+      <h2>The methods, and why each exists</h2>
+      <span class="note">the discipline that makes agent fleets trustworthy at senior scale</span>
+    </div>
+    <div class="grid">
+      <div class="card">
+        <h3><span class="dot"></span>Plan-space, not code-space</h3>
+        <div class="role">idea → plan → beads</div>
+        <p>Rewriting a plan is cheap; rewriting a shipped system is not. Ideas are elaborated into a granular, dependency-linked bead graph — each task carrying its own rationale, so an agent (or a future me) never has to reconstruct intent.</p>
+        <p>Result: a big swarm can be pointed at the graph and come out close to right, because the thinking already happened.</p>
+      </div>
+      <div class="card">
+        <h3><span class="dot"></span>PageRank on the work itself</h3>
+        <div class="role">graph triage</div>
+        <p>Tasks form a dependency graph, so I run graph analysis <i>on the backlog</i> — bottleneck detection, cycle checks, and next-action ranking — instead of guessing what to do next. <code>bv --robot-plan</code> emits parallel execution tracks; the swarm fans out along them.</p>
+      </div>
+      <div class="card">
+        <h3><span class="dot"></span>Eval-first, golden-regression</h3>
+        <div class="role">correctness as data</div>
+        <p>The harness is built before the feature. Behavior is pinned with golden snapshots and per-case baselines, so a regression is a diff, not a surprise. When a number moves, I know exactly which case and why.</p>
+      </div>
+      <div class="card">
+        <h3><span class="dot"></span>The one-script gate</h3>
+        <div class="role">verify.sh · CI is a thin wrapper</div>
+        <p>A single portable script <i>is</i> the gate — format, lint (warnings are errors), tests, evals, and a real dogfood run of the product on a real workload. CI does nothing the script doesn't, so it's reproducible on a laptop and provable offline with <code>act</code>.</p>
+      </div>
+      <div class="card">
+        <h3><span class="dot"></span>Multi-model adversarial swarms</h3>
+        <div class="role">orchestration</div>
+        <p>Different model architectures have different blind spots. I run them against each other — generate, cross-score, reveal, rebut — and treat disagreement as signal. Coordination via isolated worktrees and a shared task graph, not a shared branch.</p>
+      </div>
+      <div class="card">
+        <h3><span class="dot"></span>Adversarial audit as a step</h3>
+        <div class="role">distrust the trust core</div>
+        <p>The most trust-critical component gets an agent whose only job is to forge, confuse, or break it. On my last build the audit found a real authenticity gap in a "tamper-evident" format — <b>so I published the finding in the project's own README.</b> Owning your worst finding reads as competence, not weakness.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- BUILT WITH IT -->
+  <section id="built">
+    <div class="eyebrow">
+      <h2>Built with this stack</h2>
+      <span class="note">public repos are live and linked — read the tests, read the gate</span>
+    </div>
+    <div class="proj">
+      <div class="pcard">
+        <div class="top"><h3>Zeugnis</h3><span class="tag pub">public · OSS</span></div>
+        <p>An execution-based verifier for code migration: runs a legacy program and its replacement over the same inputs, compares them at the observable boundary under a declared assumption ledger, and issues a deterministic, hash-chained equivalence certificate — including what it could <i>not</i> prove.</p>
+        <div class="meta">Rust · <b>std-only, zero deps</b> · <b>#![forbid(unsafe_code)]</b><br>20 unit + 15 e2e tests · 12-step dogfooding gate · <b>self-audited</b></div>
+        <div class="links"><a href="https://github.com/jonathanpopham/zeugnis">github.com/jonathanpopham/zeugnis</a></div>
+      </div>
+      <div class="pcard">
+        <div class="top"><h3>Ontoloom</h3><span class="tag pub">public · OSS</span></div>
+        <p>An airgapped, dependency-free ontology and knowledge-graph builder with a visual browser GUI served on loopback, exporting Neo4j-compatible formats (JSONL / Cypher / JSON / GraphML). No cloud, no telemetry, no external packages.</p>
+        <div class="meta">Rust · <b>std-only</b> · browser SPA on localhost · Neo4j-compatible exports</div>
+        <div class="links"><a href="https://github.com/jonathanpopham/ontoloom">github.com/jonathanpopham/ontoloom</a></div>
+      </div>
+      <div class="pcard">
+        <div class="top"><h3>anime-lakehouse</h3><span class="tag pub">public</span></div>
+        <p>A data-engineering reference build: a medallion lakehouse with a dbt star schema and LLM enrichment, guarded by trace-based evals behind a five-gate CI lattice. DuckDB locally; Delta / Unity Catalog on Databricks for deploy.</p>
+        <div class="meta">dbt · DuckDB · Databricks · <b>trace-based evals</b> · <b>5-gate CI</b></div>
+        <div class="links"><a href="https://github.com/jonathanpopham/anime-lakehouse">github.com/jonathanpopham/anime-lakehouse</a></div>
+      </div>
+      <div class="pcard">
+        <div class="top"><h3>TrailTracker</h3><span class="tag priv">private · on request</span></div>
+        <p>A deterministic, airgap-safe code-understanding engine: ~60 hand-written language frontends (no tree-sitter), seven graph ontologies, and byte-stable output. The engine that taught me the discipline this whole page describes.</p>
+        <div class="meta">Rust · <b>std-only, zero deps</b> · ~60 languages · <b>2,300+ tests</b> · byte-stable</div>
+        <div class="links"><span class="none">source private — walkthrough available on request</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section>
+    <div class="stats">
+      <div class="stat"><div class="v">~60</div><div class="l">language parsers hand-written for TrailTracker</div></div>
+      <div class="stat"><div class="v">0</div><div class="l">external dependencies in the shipped systems</div></div>
+      <div class="stat"><div class="v">35+</div><div class="l">tests behind Zeugnis, gated in CI</div></div>
+      <div class="stat"><div class="v">100%</div><div class="l">of merges pass one reproducible gate</div></div>
+    </div>
+  </section>
+
+  <!-- BIO -->
+  <section>
+    <div class="eyebrow"><h2>Who's behind it</h2></div>
+    <div class="bio">
+      <div>
+        <p><b>I'm a systems and AI engineer</b> who was the founding engineer at a code-intelligence startup — hired pre-product, helped build the engineering team, and designed the parsing, classification, LLM-routing, and evaluation stack that took it to production.</p>
+        <p>Since then I've gone deep on <b>agentic engineering</b>: treating AI coding agents as a fleet to be orchestrated with real discipline — dependency-graphed planning, eval-first correctness, verification gates, and adversarial review — rather than a chat box. The public repos above are that methodology, applied and shipped.</p>
+        <p>I work in Rust when correctness matters (deterministic, zero-dependency, <code>forbid(unsafe)</code>), across the stack when it doesn't, and I'm most useful where <b>AI throughput meets senior-engineer judgment</b> — where someone has to make the machine's output trustworthy.</p>
+      </div>
+      <div class="facts">
+        <div class="row"><span class="k">focus</span><span class="val">Agentic infra · evals · systems</span></div>
+        <div class="row"><span class="k">languages</span><span class="val">Rust, Python, TS, Go</span></div>
+        <div class="row"><span class="k">education</span><span class="val">B.S. Mathematics</span></div>
+        <div class="row"><span class="k">work</span><span class="val">Fully remote</span></div>
+        <div class="row"><span class="k">public code</span><span class="val"><a href="https://github.com/jonathanpopham">@jonathanpopham</a></span></div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  <div class="wrap">
+    <span class="who">Jonathan Popham — <b>agentic engineering, done with discipline.</b></span>
+    <span>
+      <a href="https://github.com/jonathanpopham">github</a>
+      <a href="mailto:jonathan.popham@gmail.com">email</a>
+    </span>
+  </div>
+</footer>
+
+</body>
+</html>
