@@ -119,6 +119,24 @@ footer{border-top:1px solid var(--line2);padding:32px 0 62px;margin-top:20px}
 footer .wrap{display:flex;flex-wrap:wrap;gap:14px 24px;justify-content:space-between;align-items:baseline}
 footer .credit{color:var(--faint);font-family:var(--mono);font-size:11.5px;max-width:56ch;line-height:1.6}
 footer .links a{font-family:var(--mono);font-size:12.5px;margin-left:18px}
+
+/* workflow loop animation */
+.loopwrap{margin:6px 0 34px}
+.loop{width:100%;height:auto;display:block;overflow:visible}
+.loop .track{fill:none;stroke:var(--line);stroke-width:2}
+.loop .flow{fill:none;stroke:var(--accent);stroke-width:2;stroke-dasharray:9 27;opacity:.5;animation:flowmove 2.6s linear infinite}
+@keyframes flowmove{to{stroke-dashoffset:-36}}
+.loop .node circle{fill:var(--bg);stroke:var(--accent);stroke-width:2;transition:filter .35s,fill .35s;filter:drop-shadow(0 0 3px rgba(111,227,198,.45))}
+.loop .node.on circle{fill:var(--accent);filter:drop-shadow(0 0 11px rgba(111,227,198,.95))}
+.loop .nname{fill:var(--dim);font-family:var(--mono);font-size:14px;font-weight:600;transition:fill .35s}
+.loop .node.on .nname{fill:var(--accent)}
+.loop .nrole{fill:var(--faint);font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;transition:fill .35s}
+.loop .node.on .nrole{fill:var(--dim)}
+.loop .compound{fill:var(--faint);font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase}
+.loop .token{fill:var(--accent);filter:drop-shadow(0 0 6px rgba(111,227,198,1))}
+.loopcap{margin:18px auto 0;text-align:center;color:var(--dim);font-size:15px;max-width:58ch;min-height:2.8em;line-height:1.5}
+.loopcap b{color:var(--ink);font-weight:600}
+@media(prefers-reduced-motion:reduce){.loop .flow{animation:none;opacity:.35}.loop .token{display:none}}
 </style>
 </head>
 <body>
@@ -160,6 +178,20 @@ footer .links a{font-family:var(--mono);font-size:12.5px;margin-left:18px}
       <p class="kick">what it is</p>
       <h2>One persistent stack, not a dozen amnesiac sessions.</h2>
       <p>Small tools that each do one thing well and snap together into a loop: understand the code, render what's known, remember it, act on it, prove the result. Small parts that compose, never one monolith.</p>
+    </div>
+    <div class="loopwrap">
+      <svg class="loop" viewBox="0 0 1000 250" xmlns:xlink="http://www.w3.org/1999/xlink" role="img" aria-label="The ghostie stack workflow: a codebase is understood, rendered, remembered, acted on, and proven, and the context compounds with every pass.">
+        <path id="looptrack" class="track" d="M100,72 L900,72 C980,72 980,188 900,188 L100,188 C20,188 20,72 100,72 Z"/>
+        <path class="flow" d="M100,72 L900,72 C980,72 980,188 900,188 L100,188 C20,188 20,72 100,72 Z"/>
+        <text class="compound" x="500" y="212" text-anchor="middle">context compounds with every pass</text>
+        <g class="node" id="n0"><circle cx="100" cy="72" r="7"/><text class="nname" x="100" y="44" text-anchor="middle">TrailTracker</text><text class="nrole" x="100" y="102" text-anchor="middle">understand</text></g>
+        <g class="node" id="n1"><circle cx="300" cy="72" r="7"/><text class="nname" x="300" y="44" text-anchor="middle">Ontoloom</text><text class="nrole" x="300" y="102" text-anchor="middle">render</text></g>
+        <g class="node" id="n2"><circle cx="500" cy="72" r="7"/><text class="nname" x="500" y="44" text-anchor="middle">ghostie</text><text class="nrole" x="500" y="102" text-anchor="middle">remember</text></g>
+        <g class="node" id="n3"><circle cx="700" cy="72" r="7"/><text class="nname" x="700" y="44" text-anchor="middle">heinzel</text><text class="nrole" x="700" y="102" text-anchor="middle">act</text></g>
+        <g class="node" id="n4"><circle cx="900" cy="72" r="7"/><text class="nname" x="900" y="44" text-anchor="middle">Lockstep</text><text class="nrole" x="900" y="102" text-anchor="middle">prove</text></g>
+        <circle class="token" r="5"><animateMotion dur="9s" repeatCount="indefinite" rotate="auto"><mpath href="#looptrack" xlink:href="#looptrack"/></animateMotion></circle>
+      </svg>
+      <p class="loopcap" id="loopcap">A codebase enters, and <b>TrailTracker</b> turns it into a semantic model.</p>
     </div>
     <div class="facs">
       <div class="fac"><div class="nm">ghostie</div><div class="rl">memory &amp; continuity</div><p>A persistent memory vault and session capture, so nothing learned is lost between sessions, or between agents.</p><span class="chip ship">shipped · public</span></div>
@@ -275,6 +307,36 @@ footer .links a{font-family:var(--mono);font-size:12.5px;margin-left:18px}
     </span>
   </div>
 </footer>
+
+<script>
+(function(){
+  var mq = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)');
+  var reduce = mq && mq.matches;
+  var cap = document.getElementById('loopcap');
+  if(!cap) return;
+  var nodes = [0,1,2,3,4].map(function(i){return document.getElementById('n'+i);});
+  var steps = [
+    'A codebase enters, and <b>TrailTracker</b> turns it into a semantic model.',
+    '<b>Ontoloom</b> renders that model as a navigable graph.',
+    '<b>ghostie</b> remembers it, so the context is now permanent.',
+    '<b>heinzel</b> acts on it, working the problem on its own.',
+    '<b>Lockstep</b> proves the result behaves, with the evidence attached.'
+  ];
+  if(reduce){
+    cap.innerHTML = 'Understand, render, remember, act, prove; and the context compounds with every pass.';
+    nodes.forEach(function(n){ if(n) n.classList.add('on'); });
+    return;
+  }
+  var i = 0;
+  function tick(){
+    nodes.forEach(function(n,j){ if(n) n.classList.toggle('on', j===i); });
+    cap.innerHTML = steps[i];
+    i = (i+1) % steps.length;
+  }
+  tick();
+  setInterval(tick, 1800);
+})();
+</script>
 
 </body>
 </html>
