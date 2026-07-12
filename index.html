@@ -120,6 +120,13 @@ footer .who{font-family:var(--mono);font-size:12.5px}
 footer .who b{color:var(--dim)}
 footer a{font-family:var(--mono);font-size:12.5px;margin-left:18px}
 .lead-accent{color:var(--accent)}
+.origin{display:inline-block;margin-top:9px;margin-left:6px;font-family:var(--mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;border-radius:5px;padding:2px 6px;vertical-align:middle}
+.origin.adopted{color:var(--dim);border:1px solid var(--line)}
+.origin.mine{color:#06221d;background:var(--accent);font-weight:700}
+.attrib{margin-top:18px;padding:15px 17px;background:var(--panel2);border:1px solid var(--line);border-left:3px solid var(--type);border-radius:11px;color:var(--dim);font-size:13.4px;line-height:1.62}
+.attrib b{color:var(--ink)}
+.role .mine-tag{color:var(--accent)}
+.role .adopt-tag{color:var(--faint)}
 </style>
 </head>
 <body>
@@ -140,8 +147,8 @@ footer a{font-family:var(--mono);font-size:12.5px;margin-left:18px}
 
   <section class="hero" style="border-top:0">
     <p class="kick">agentic engineering · systems · evals</p>
-    <h1>I ship production software by running <span class="g">fleets of AI agents</span> under a deterministic engineering discipline.</h1>
-    <p class="lead">Not prompt-and-pray. A plan becomes a dependency-graphed task system, PageRank-style triage picks the critical path, agent swarms execute in parallel worktrees, and <b>nothing merges until it clears a verification gate and an adversarial audit.</b> The output is boring in the best way: reproducible, tested, and honest about what it can't prove.</p>
+    <h1>I build <span class="g">deterministic, verifiable systems</span> — and drive them with disciplined AI-agent pipelines.</h1>
+    <p class="lead">The orchestration layer — planning, task graphs, agent swarms — I <b>adopt from the open agent-engineering ecosystem</b> rather than reinvent. What I <b>build</b> is the part that makes the output trustworthy: zero-dependency deterministic engines, behavioral-equivalence verification, and gates that dogfood the product on every commit. Boring in the best way — reproducible, tested, and honest about what it can't prove.</p>
     <div class="chips">
       <span class="chip"><b>3</b>&nbsp;public shipped repos</span>
       <span class="chip"><b>zero-dependency</b>&nbsp;Rust systems</span>
@@ -161,13 +168,14 @@ footer a{font-family:var(--mono);font-size:12.5px;margin-left:18px}
       <span class="note">every stage produces an artifact; cheap failures happen first</span>
     </div>
     <div class="pipe">
-      <div class="stage"><div class="n">01</div><h3>Plan</h3><p>An idea is written as a real plan, then interrogated in "plan-space" before a line of code — where changes are free.</p><span class="tool">idea-wizard</span></div>
-      <div class="stage"><div class="n">02</div><h3>Beads</h3><p>The plan compiles into a dependency-linked task graph — self-documenting issues that encode <i>why</i>, not just what.</p><span class="tool">br / beads</span></div>
-      <div class="stage"><div class="n">03</div><h3>Triage</h3><p>Graph analysis (PageRank-style) surfaces bottlenecks and the next actionable work, so effort lands on the critical path.</p><span class="tool">bv --robot</span></div>
-      <div class="stage"><div class="n">04</div><h3>Swarm</h3><p>Multiple agents — and multiple models — execute in isolated worktrees, adversarially cross-checking each other's work.</p><span class="tool">ntm / worktrees</span></div>
-      <div class="stage"><div class="n">05</div><h3>Gate</h3><p>One script: format, lint, tests, golden evals, a real dogfood run, byte-stability and tamper checks. CI just calls it.</p><span class="tool">verify.sh</span></div>
-      <div class="stage"><div class="n">06</div><h3>Audit</h3><p>An independent agent tries to break the trust core. Findings become beads and get fixed — or published honestly.</p><span class="tool">adversarial review</span></div>
+      <div class="stage"><div class="n">01</div><h3>Plan</h3><p>An idea is written as a real plan, then interrogated in "plan-space" before a line of code — where changes are free.</p><span class="tool">idea-wizard</span><span class="origin adopted">adopted</span></div>
+      <div class="stage"><div class="n">02</div><h3>Beads</h3><p>The plan compiles into a dependency-linked task graph — self-documenting issues that encode <i>why</i>, not just what.</p><span class="tool">br / beads</span><span class="origin adopted">adopted</span></div>
+      <div class="stage"><div class="n">03</div><h3>Triage</h3><p>Graph analysis (PageRank-style) surfaces bottlenecks and the next actionable work, so effort lands on the critical path.</p><span class="tool">bv --robot</span><span class="origin adopted">adopted</span></div>
+      <div class="stage"><div class="n">04</div><h3>Swarm</h3><p>Multiple agents — and multiple models — execute in isolated worktrees, adversarially cross-checking each other's work.</p><span class="tool">ntm / worktrees</span><span class="origin adopted">adopted</span></div>
+      <div class="stage"><div class="n">05</div><h3>Gate</h3><p>One script: format, lint, tests, golden evals, a real dogfood run, byte-stability and tamper checks. CI just calls it.</p><span class="tool">verify.sh</span><span class="origin mine">mine</span></div>
+      <div class="stage"><div class="n">06</div><h3>Audit</h3><p>An independent agent tries to break the trust core. Findings get fixed — or published honestly.</p><span class="tool">adversarial review</span><span class="origin mine">mine</span></div>
     </div>
+    <p class="attrib">Stages 1–4 run on <b>adopted open-source tooling</b> — beads, ntm, and the agent-engineering skill set are Jeff Emanuel's work, and I don't reinvent the orchestration layer. <b>What's mine is the deterministic build-and-verify core:</b> the one-script verification gate, the adversarial audit discipline, and the zero-dependency engines below — the part that makes a fleet of agents produce something you can actually trust in production.</p>
     <p class="flowcap"><b>The rule that holds it together:</b> distrust green. A test that never failed proves nothing, so I make it fail first. AI writes the code; execution — never the model's confidence — is the arbiter.</p>
   </section>
 
@@ -175,38 +183,38 @@ footer a{font-family:var(--mono);font-size:12.5px;margin-left:18px}
   <section id="methods">
     <div class="eyebrow">
       <h2>The methods, and why each exists</h2>
-      <span class="note">the discipline that makes agent fleets trustworthy at senior scale</span>
+      <span class="note">what I apply on top of adopted orchestration — the verification half is mine</span>
     </div>
     <div class="grid">
       <div class="card">
         <h3><span class="dot"></span>Plan-space, not code-space</h3>
-        <div class="role">idea → plan → beads</div>
+        <div class="role">discipline mine · tooling <span class="adopt-tag">adopted (beads)</span></div>
         <p>Rewriting a plan is cheap; rewriting a shipped system is not. Ideas are elaborated into a granular, dependency-linked bead graph — each task carrying its own rationale, so an agent (or a future me) never has to reconstruct intent.</p>
         <p>Result: a big swarm can be pointed at the graph and come out close to right, because the thinking already happened.</p>
       </div>
       <div class="card">
         <h3><span class="dot"></span>PageRank on the work itself</h3>
-        <div class="role">graph triage</div>
+        <div class="role">graph triage · tooling <span class="adopt-tag">adopted (bv)</span></div>
         <p>Tasks form a dependency graph, so I run graph analysis <i>on the backlog</i> — bottleneck detection, cycle checks, and next-action ranking — instead of guessing what to do next. <code>bv --robot-plan</code> emits parallel execution tracks; the swarm fans out along them.</p>
       </div>
       <div class="card">
         <h3><span class="dot"></span>Eval-first, golden-regression</h3>
-        <div class="role">correctness as data</div>
+        <div class="role">correctness as data · <span class="mine-tag">my engineering</span></div>
         <p>The harness is built before the feature. Behavior is pinned with golden snapshots and per-case baselines, so a regression is a diff, not a surprise. When a number moves, I know exactly which case and why.</p>
       </div>
       <div class="card">
         <h3><span class="dot"></span>The one-script gate</h3>
-        <div class="role">verify.sh · CI is a thin wrapper</div>
+        <div class="role">verify.sh · <span class="mine-tag">mine</span></div>
         <p>A single portable script <i>is</i> the gate — format, lint (warnings are errors), tests, evals, and a real dogfood run of the product on a real workload. CI does nothing the script doesn't, so it's reproducible on a laptop and provable offline with <code>act</code>.</p>
       </div>
       <div class="card">
         <h3><span class="dot"></span>Multi-model adversarial swarms</h3>
-        <div class="role">orchestration</div>
+        <div class="role">orchestration · tooling <span class="adopt-tag">adopted (ntm)</span></div>
         <p>Different model architectures have different blind spots. I run them against each other — generate, cross-score, reveal, rebut — and treat disagreement as signal. Coordination via isolated worktrees and a shared task graph, not a shared branch.</p>
       </div>
       <div class="card">
         <h3><span class="dot"></span>Adversarial audit as a step</h3>
-        <div class="role">distrust the trust core</div>
+        <div class="role">distrust the trust core · <span class="mine-tag">my discipline</span></div>
         <p>The most trust-critical component gets an agent whose only job is to forge, confuse, or break it. On my last build the audit found a real authenticity gap in a "tamper-evident" format — <b>so I published the finding in the project's own README.</b> Owning your worst finding reads as competence, not weakness.</p>
       </div>
     </div>
@@ -215,8 +223,8 @@ footer a{font-family:var(--mono);font-size:12.5px;margin-left:18px}
   <!-- BUILT WITH IT -->
   <section id="built">
     <div class="eyebrow">
-      <h2>Built with this stack</h2>
-      <span class="note">public repos are live and linked — read the tests, read the gate</span>
+      <h2>The systems I built</h2>
+      <span class="note">these are mine — deterministic, zero-dependency; public ones live-linked, read the tests and the gate</span>
     </div>
     <div class="proj">
       <div class="pcard">
@@ -262,7 +270,7 @@ footer a{font-family:var(--mono);font-size:12.5px;margin-left:18px}
     <div class="bio">
       <div>
         <p><b>I'm a systems and AI engineer</b> who was the founding engineer at a code-intelligence startup — hired pre-product, helped build the engineering team, and designed the parsing, classification, LLM-routing, and evaluation stack that took it to production.</p>
-        <p>Since then I've gone deep on <b>agentic engineering</b>: treating AI coding agents as a fleet to be orchestrated with real discipline — dependency-graphed planning, eval-first correctness, verification gates, and adversarial review — rather than a chat box. The public repos above are that methodology, applied and shipped.</p>
+        <p>Since then I've gone deep on <b>agentic engineering</b> — running AI coding agents as an orchestrated fleet rather than a chat box. I build on the open ecosystem's tooling (beads, ntm, and Jeff Emanuel's agent-engineering work) instead of reinventing it, and I focus my own building where it's genuinely differentiated: <b>deterministic understanding and verification</b> — code that has to be right, and provably so. The public repos above are that lane, shipped.</p>
         <p>I work in Rust when correctness matters (deterministic, zero-dependency, <code>forbid(unsafe)</code>), across the stack when it doesn't, and I'm most useful where <b>AI throughput meets senior-engineer judgment</b> — where someone has to make the machine's output trustworthy.</p>
       </div>
       <div class="facts">
