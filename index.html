@@ -189,7 +189,7 @@ footer .links a{font-family:var(--mono);font-size:12.5px;margin-left:18px}
         <g class="node" id="n2"><circle cx="500" cy="72" r="7"/><text class="nname" x="500" y="44" text-anchor="middle">ghostie</text><text class="nrole" x="500" y="102" text-anchor="middle">remember</text></g>
         <g class="node" id="n3"><circle cx="700" cy="72" r="7"/><text class="nname" x="700" y="44" text-anchor="middle">Nightshift</text><text class="nrole" x="700" y="102" text-anchor="middle">act</text></g>
         <g class="node" id="n4"><circle cx="900" cy="72" r="7"/><text class="nname" x="900" y="44" text-anchor="middle">Lockstep</text><text class="nrole" x="900" y="102" text-anchor="middle">prove</text></g>
-        <circle class="token" r="5"><animateMotion dur="9s" repeatCount="indefinite" rotate="auto"><mpath href="#looptrack" xlink:href="#looptrack"/></animateMotion></circle>
+        <circle class="token" id="looptoken" r="5" cx="100" cy="72"/>
       </svg>
       <p class="loopcap" id="loopcap">A codebase enters, and <b>TrailTracker</b> turns it into a semantic model.</p>
     </div>
@@ -266,6 +266,12 @@ footer .links a{font-family:var(--mono);font-size:12.5px;margin-left:18px}
         <div class="lk"><a href="https://github.com/jonathanpopham/ghostie">github.com/jonathanpopham/ghostie</a></div>
       </div>
       <div class="pcard">
+        <div class="top"><h3>gatekit</h3><span class="tag pub">public</span></div>
+        <p>The stack's verification discipline, packaged for any project: one script is the gate, CI is a thin wrapper, and the gate dogfoods the product on a real workload with byte-stability and tamper checks.</p>
+        <div class="meta">self-dogfooding gate · byte-stability + tamper checks · green on a fresh clone</div>
+        <div class="lk"><a href="https://github.com/jonathanpopham/gatekit">github.com/jonathanpopham/gatekit</a></div>
+      </div>
+      <div class="pcard">
         <div class="top"><h3>TrailTracker</h3><span class="tag prv">private</span></div>
         <p>A code-understanding engine that extracts ontologies from a codebase, entirely offline. The mature private core of the stack.</p>
         <div class="meta">Rust · <b>std-only</b> · fully offline</div>
@@ -322,19 +328,40 @@ footer .links a{font-family:var(--mono);font-size:12.5px;margin-left:18px}
     '<b>Nightshift</b> acts on it, working the problem on its own.',
     '<b>Lockstep</b> proves the result behaves, with the evidence attached.'
   ];
+  var path = document.getElementById('looptrack');
+  var token = document.getElementById('looptoken');
   if(reduce){
     cap.innerHTML = 'Understand, render, remember, act, prove; and the context compounds with every pass.';
     nodes.forEach(function(n){ if(n) n.classList.add('on'); });
     return;
   }
-  var i = 0;
-  function tick(){
+  if(!path || !token) return;
+  var L = path.getTotalLength();
+  var nodeD = [0, 200, 400, 600, 800];   // nodes sit at x=100..900 on the straight top edge
+  var STEP = 2800;                        // ms per step, synced with the caption
+  var i = 0, fromD = 0, toD = 200, segStart = 0;
+  function setToken(d){
+    var p = path.getPointAtLength(d % L);
+    token.setAttribute('cx', p.x.toFixed(2));
+    token.setAttribute('cy', p.y.toFixed(2));
+  }
+  function startSeg(){
     nodes.forEach(function(n,j){ if(n) n.classList.toggle('on', j===i); });
     cap.innerHTML = steps[i];
-    i = (i+1) % steps.length;
+    fromD = nodeD[i];
+    toD = (i === 4) ? L : nodeD[i+1];    // last node loops forward around the return arc to the first
+    segStart = performance.now();
   }
-  tick();
-  setInterval(tick, 1800);
+  function frame(now){
+    var t = (now - segStart) / STEP;
+    if(t > 1) t = 1;
+    var e = t < 0.5 ? 2*t*t : -1 + (4 - 2*t)*t;   // easeInOutQuad
+    setToken(fromD + (toD - fromD) * e);
+    if(t >= 1){ i = (i + 1) % 5; startSeg(); }
+    requestAnimationFrame(frame);
+  }
+  startSeg();
+  requestAnimationFrame(frame);
 })();
 </script>
 
