@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>The Ghostie Stack: AI you own</title>
-<meta name="description" content="A local-first AI stack you own: it remembers your context, runs entirely on your own machine, and proves its own work. Small deterministic tools that snap together, built by Jonathan Popham.">
+<meta name="description" content="A local-first AI stack you own: memory you can read and carry, a deterministic core that runs airgapped, and verification with the evidence attached. Small tools that snap together, built by Jonathan Popham.">
 <style>
 :root{
   --bg:#0a0c13; --bg2:#0c0f18; --panel:#11141f; --panel2:#0e1119;
@@ -86,6 +86,14 @@ section{padding:60px 0}
 .pillar h3 .anti{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent2);margin-left:10px;vertical-align:middle}
 .pillar p{margin:0;color:var(--dim);font-size:15px;max-width:64ch}
 
+/* compose */
+.compose{background:linear-gradient(180deg,var(--panel),var(--panel2));border:1px solid var(--line);
+  border-radius:14px;padding:26px 28px}
+.compose ol{margin:0;padding-left:1.3em;color:var(--dim);font-size:14.5px;line-height:1.6;
+  display:flex;flex-direction:column;gap:11px}
+.compose ol b{color:var(--ink);font-family:var(--mono);font-size:13px}
+.compose .plain{margin:18px 0 0;color:var(--faint);font-family:var(--mono);font-size:12px;line-height:1.6}
+
 /* proof */
 .proj{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
 @media(max-width:720px){.proj{grid-template-columns:1fr}}
@@ -114,6 +122,13 @@ section{padding:60px 0}
 .facts .row:last-child{border-bottom:0}
 .facts .k{color:var(--faint);font-family:var(--mono);font-size:11px;letter-spacing:.04em}
 .facts .v{color:var(--ink);text-align:right}
+
+/* closing cta */
+.talk{padding:26px 0 70px;text-align:center}
+.talk .band{background:linear-gradient(180deg,var(--panel),var(--panel2));border:1px solid var(--line);
+  border-radius:14px;padding:40px 28px}
+.talk .line{font-family:var(--serif);font-weight:600;font-size:clamp(20px,3vw,28px);line-height:1.3;
+  letter-spacing:-.01em;color:var(--ink);max-width:34ch;margin:14px auto 24px;text-wrap:balance}
 
 footer{border-top:1px solid var(--line2);padding:32px 0 62px;margin-top:20px}
 footer .wrap{display:flex;flex-wrap:wrap;gap:14px 24px;justify-content:space-between;align-items:baseline}
@@ -159,10 +174,10 @@ footer .links a{font-family:var(--mono);font-size:12.5px;margin-left:18px}
   <section class="hero">
     <p class="kick">the ghostie stack</p>
     <h1>AI you <em>own</em>, that remembers, stays local, and proves its own work.</h1>
-    <p class="lead">Today's AI forgets you when the tab closes, sends your code to someone else's servers, and asks you to trust an answer it can't justify. The ghostie stack is built the other way: <b>small, local-first tools that keep your context, run entirely on your own machine, and verify their own output.</b></p>
+    <p class="lead">Today's AI rents you a memory you can't read, sends your code to someone else's servers, and asks you to trust an answer it can't justify. The ghostie stack is built the other way: <b>small, local-first tools that keep your context in a store you own, run their deterministic core on your own machine, and verify their own output.</b></p>
     <div class="tags">
-      <span>local-first</span><span>zero-dependency</span><span>airgap-safe</span>
-      <span>deterministic</span><span>self-verifying</span>
+      <span>local-first architecture</span><span>airgap-capable components</span><span>deterministic verification</span>
+      <span>provider-agnostic memory</span><span>user-owned context</span>
     </div>
     <div class="cta">
       <a class="btn primary" href="#proof">See what's shipped</a>
@@ -176,7 +191,7 @@ footer .links a{font-family:var(--mono);font-size:12.5px;margin-left:18px}
   <section id="what">
     <div class="eyebrow">
       <p class="kick">what it is</p>
-      <h2>One persistent stack, not a dozen amnesiac sessions.</h2>
+      <h2>One persistent stack, not a dozen disconnected sessions.</h2>
       <p>Small tools that each do one thing well and snap together into a loop: understand the code, render what's known, remember it, act on it, prove the result. Small parts that compose, never one monolith.</p>
     </div>
     <div class="loopwrap">
@@ -194,12 +209,33 @@ footer .links a{font-family:var(--mono);font-size:12.5px;margin-left:18px}
       <p class="loopcap" id="loopcap">A codebase enters, and <b>TrailTracker</b> turns it into a semantic model.</p>
     </div>
     <div class="facs">
-      <div class="fac"><div class="nm">ghostie</div><div class="rl">memory &amp; continuity</div><p>A persistent memory vault and session capture, so nothing learned is lost between sessions, or between agents.</p><span class="chip ship">shipped · public</span></div>
+      <div class="fac"><div class="nm">ghostie</div><div class="rl">memory &amp; continuity</div><p>Provider-agnostic memory you own: your context persists across sessions, agents, and devices, in a store you can read and carry.</p><span class="chip bld">rebuilding</span></div>
       <div class="fac"><div class="nm">TrailTracker</div><div class="rl">code understanding</div><p>Extracts meaningful ontologies from a codebase, entirely on your own machine.</p><span class="chip shipo">built · private</span></div>
       <div class="fac"><div class="nm">Ontoloom</div><div class="rl">knowledge rendering</div><p>An airgapped GUI that renders those models as navigable graphs and lets a human author ontologies on top.</p><span class="chip ship">shipped · public</span></div>
       <div class="fac"><div class="nm">Nightshift</div><div class="rl">autonomous action</div><p>A background agent that plans and works problems on its own while you're away, then hands back the results.</p><span class="chip wip">in progress</span></div>
-      <div class="fac"><div class="nm">Lockstep</div><div class="rl">verification</div><p>Proves a rewritten or migrated program behaves identically to the original, and issues a replayable certificate of exactly what was proven, and what wasn't.</p><span class="chip ship">shipped · public</span></div>
+      <div class="fac"><div class="nm">Lockstep</div><div class="rl">verification</div><p>Runs a program and its rewrite over an explicit corpus and issues replayable, tamper-evident evidence that they behave equivalently at the observable boundary, naming exactly what it could not prove.</p><span class="chip ship">shipped · public</span></div>
       <div class="fac"><div class="nm">Auftragstaktik</div><div class="rl">the standard</div><p>The shared contract and health checks every tool follows, so the pieces stay small, composable, and honest as the stack grows.</p><span class="chip shipo">shipped</span></div>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <!-- HOW THE PIECES COMPOSE -->
+  <section id="compose">
+    <div class="eyebrow">
+      <p class="kick">how the pieces compose</p>
+      <h2>The intended loop, stated plainly.</h2>
+      <p>This is the design the tools are built toward, not a pipeline you can run end to end today.</p>
+    </div>
+    <div class="compose">
+      <ol>
+        <li><b>TrailTracker</b> reads a legacy codebase, say a COBOL payroll system, and extracts its ontology.</li>
+        <li><b>Ontoloom</b> lets an engineer inspect that model and correct where the machine got it wrong.</li>
+        <li><b>ghostie</b> preserves the assumptions and decisions, so they outlive the project.</li>
+        <li><b>Nightshift</b> performs the migration.</li>
+        <li><b>Lockstep</b> runs both implementations against the same corpus and issues a replayable certificate.</li>
+      </ol>
+      <p class="plain">The parts run today: the COBOL demo, the ontology extraction, the certificates. The end-to-end wiring and Nightshift are the direction.</p>
     </div>
   </section>
 
@@ -209,22 +245,22 @@ footer .links a{font-family:var(--mono);font-size:12.5px;margin-left:18px}
   <section id="brings">
     <div class="eyebrow">
       <p class="kick">what it brings</p>
-      <h2>Three things mainstream AI structurally can't give you.</h2>
-      <p>Every hosted assistant is amnesiac, cloud-bound, and unverifiable, because that's the business model. This stack inverts all three.</p>
+      <h2>Three things hosted AI doesn't let you fully own.</h2>
+      <p>Hosted AI will remember you, run your code, and hand you answers. What it won't do is let you own any of it: the memory is rented and opaque, locked to one vendor. This stack makes your context owned, inspectable, and portable, and holds the rest of the loop to the same standard.</p>
     </div>
     <div class="pillars">
       <div class="pillar">
         <div class="num">01</div>
         <div>
-          <h3>It remembers.<span class="anti">anti-amnesia</span></h3>
-          <p>Mainstream assistants forget you the instant the session closes. The ghostie stack keeps a memory vault and captures every session, so context <em>compounds</em> instead of resetting. What one agent learns, the next already knows, across days and across tools.</p>
+          <h3>You own the memory.<span class="anti">provider-agnostic</span></h3>
+          <p>Hosted assistants do remember you now. But that memory is rented: opaque, unexportable, locked to one vendor's product. The ghostie stack keeps your context in a store you own and can read, portable across sessions, across agents, and across devices. What one agent learns, the next already knows, whoever's model it is.</p>
         </div>
       </div>
       <div class="pillar">
         <div class="num">02</div>
         <div>
-          <h3>It's sovereign.<span class="anti">anti-cloud</span></h3>
-          <p>Local-first, airgap-safe, zero external dependencies, no telemetry. Your code and your context never leave your machine. In a market that rents intelligence back to you by the token, this is a stack you own outright, and can run with the network unplugged.</p>
+          <h3>It's sovereign where it counts.<span class="anti">airgap-capable</span></h3>
+          <p>The deterministic core, TrailTracker, Ontoloom, and Lockstep, runs entirely local: zero external dependencies, no telemetry, working with the network unplugged. The memory layer talks to whatever model you choose, so the claim stays scoped and honest; the parts that have to be trustworthy are the parts that never phone home.</p>
         </div>
       </div>
       <div class="pillar">
@@ -244,7 +280,7 @@ footer .links a{font-family:var(--mono);font-size:12.5px;margin-left:18px}
     <div class="eyebrow">
       <p class="kick">shipped</p>
       <h2>Working pieces you can read right now.</h2>
-      <p>The public repositories below are real. Clone them, read the tests, read the gate. Zero external dependencies, deterministic, gated in CI.</p>
+      <p>The repositories linked below are real. Clone them, read the tests, read the gate. The deterministic tools carry zero external dependencies and are gated in CI.</p>
     </div>
     <div class="proj">
       <div class="pcard">
@@ -260,14 +296,14 @@ footer .links a{font-family:var(--mono);font-size:12.5px;margin-left:18px}
         <div class="lk"><a href="https://github.com/jonathanpopham/ontoloom">github.com/jonathanpopham/ontoloom</a></div>
       </div>
       <div class="pcard">
-        <div class="top"><h3>ghostie</h3><span class="tag pub">public</span></div>
-        <p>The memory layer: a persistent assistant with a memory vault and session capture, so context survives across sessions and agents instead of resetting to zero every time.</p>
+        <div class="top"><h3>ghostie</h3><span class="tag prv">rebuilding</span></div>
+        <p>The memory layer: provider-agnostic context you own, persisting across sessions, agents, and devices in a store you can read and carry, whichever vendor's model sits on top.</p>
         <div class="meta">persistent memory · session capture · terminal-native</div>
-        <div class="lk"><a href="https://github.com/jonathanpopham/ghostie">github.com/jonathanpopham/ghostie</a></div>
+        <div class="lk"><span class="no">rebuilding in Rust, clean-start</span></div>
       </div>
       <div class="pcard">
         <div class="top"><h3>gatekit</h3><span class="tag pub">public</span></div>
-        <p>The stack's verification discipline, packaged for any project: one script is the gate, CI is a thin wrapper, and the gate dogfoods the product on a real workload with byte-stability and tamper checks.</p>
+        <p>The stack's verification discipline, packaged for any project: one script is the gate, CI is a thin wrapper, and the gate dogfoods the product on a real workload with byte-stability and tamper checks. It is the working implementation of the discipline Auftragstaktik, the stack's standard, requires.</p>
         <div class="meta">self-dogfooding gate · byte-stability + tamper checks · green on a fresh clone</div>
         <div class="lk"><a href="https://github.com/jonathanpopham/gatekit">github.com/jonathanpopham/gatekit</a></div>
       </div>
@@ -278,7 +314,7 @@ footer .links a{font-family:var(--mono);font-size:12.5px;margin-left:18px}
         <div class="lk"><span class="no">walkthrough available on request</span></div>
       </div>
     </div>
-    <p class="honest">Honest status: the stack is half-built by design. Lockstep, Ontoloom, and ghostie are public and working; TrailTracker is the mature private engine underneath; Nightshift is in progress. The vision on this page is the direction, and these are the parts already standing.</p>
+    <p class="honest">Honest status: the stack is modular and already useful before every component is complete. Lockstep, Ontoloom, and gatekit are public and working; TrailTracker is the mature private engine underneath; ghostie is being rebuilt in Rust; Nightshift is in progress. The vision on this page is the direction, and these are the parts already standing.</p>
   </section>
 
   <hr class="rule">
@@ -290,7 +326,7 @@ footer .links a{font-family:var(--mono);font-size:12.5px;margin-left:18px}
       <div>
         <p><b>Systems and AI engineer.</b> I was the founding engineer at a code-intelligence startup, hired pre-product. I helped build the engineering team and designed the parsing, classification, LLM-routing, and evaluation stack that carried it to production.</p>
         <p>My lane is <b>deterministic understanding and verification</b>: code that has to be right, and provably so. I work in Rust when correctness matters (zero-dependency, <code>forbid(unsafe)</code>, byte-stable), and across the stack when it doesn't. I'm most useful where <b>AI throughput meets senior-engineer judgment</b>, when someone has to make the machine's output trustworthy before it ships.</p>
-        <p>The ghostie stack is where that conviction lives. It's a bet that the durable form of AI tooling will be <b>owned, persistent, and self-verifying</b>, rather than rented, amnesiac, and opaque.</p>
+        <p>The ghostie stack is where that conviction lives. It's a bet that the durable form of AI tooling will be <b>owned, persistent, and self-verifying</b>, rather than rented, vendor-locked, and opaque.</p>
       </div>
       <div class="facts">
         <div class="row"><span class="k">focus</span><span class="v">Understanding · evals · agentic infra</span></div>
@@ -299,6 +335,15 @@ footer .links a{font-family:var(--mono);font-size:12.5px;margin-left:18px}
         <div class="row"><span class="k">work</span><span class="v">Fully remote</span></div>
         <div class="row"><span class="k">code</span><span class="v"><a href="https://github.com/jonathanpopham">@jonathanpopham</a></span></div>
       </div>
+    </div>
+  </section>
+
+  <!-- CLOSING CTA -->
+  <section class="talk" id="talk">
+    <div class="band">
+      <p class="kick">work with me</p>
+      <p class="line">I build deterministic infrastructure around probabilistic systems. If that's the problem your team is facing, let's talk.</p>
+      <a class="btn primary" href="mailto:jonathan.popham@gmail.com">jonathan.popham@gmail.com</a>
     </div>
   </section>
 
@@ -326,7 +371,7 @@ footer .links a{font-family:var(--mono);font-size:12.5px;margin-left:18px}
     '<b>Ontoloom</b> renders that model as a navigable graph.',
     '<b>ghostie</b> remembers it, so the context is now permanent.',
     '<b>Nightshift</b> acts on it, working the problem on its own.',
-    '<b>Lockstep</b> proves the result behaves, with the evidence attached.'
+    '<b>Lockstep</b> runs old and new over the same corpus, evidence attached.'
   ];
   var path = document.getElementById('looptrack');
   var token = document.getElementById('looptoken');
