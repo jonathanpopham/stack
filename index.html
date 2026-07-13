@@ -229,13 +229,13 @@ footer .links a{font-family:var(--mono);font-size:12.5px;margin-left:18px}
     </div>
     <div class="compose">
       <ol>
-        <li><b>TrailTracker</b> reads a legacy codebase, say a COBOL payroll system, and extracts its ontology.</li>
+        <li><b>TrailTracker</b> reads a legacy codebase and extracts its ontology.</li>
         <li><b>Ontoloom</b> lets an engineer inspect that model and correct where the machine got it wrong.</li>
         <li><b>ghostie</b> preserves the assumptions and decisions, so they outlive the project.</li>
         <li><b>Nightshift</b> orchestrates the migration and hands both implementations to verification.</li>
         <li><b>Lockstep</b> runs both against the same corpus and issues a replayable certificate.</li>
       </ol>
-      <p class="plain">The payroll loop runs end to end today, proven in public CI: Nightshift freezes the contract, hands the candidate to Lockstep, and gets back a replayable EQUIVALENT certificate. At this milestone the candidate is a known-good port, so what is proven is the wiring, not regeneration quality. General, agent-driven regeneration is the next step.</p>
+      <p class="plain">The loop runs end to end today on a first example, proven in public CI: Nightshift freezes the contract, hands the candidate to Lockstep, and gets back a replayable EQUIVALENT certificate. At this milestone the candidate is supplied, so what is proven is the wiring, not regeneration quality. General, agent-driven regeneration is the next step.</p>
     </div>
   </section>
 
@@ -310,7 +310,7 @@ footer .links a{font-family:var(--mono);font-size:12.5px;margin-left:18px}
       <div class="pcard">
         <div class="top"><h3>Nightshift</h3><span class="tag pub">public</span></div>
         <p>The act node: a behavior-preserving migration orchestrator. It freezes a behavioral contract from the legacy program, drives a candidate through Lockstep, and refuses-and-flags rather than guess when it cannot verify. The one impure step, regeneration, is boxed by deterministic trust on both sides.</p>
-        <div class="meta">Rust · <b>std-only scaffolding</b> · the loop closes on the payroll example, proven in public CI · candidate supplied at this milestone</div>
+        <div class="meta">Rust · <b>std-only scaffolding</b> · the loop closes end to end on a first example, proven in public CI · candidate supplied at this milestone</div>
         <div class="lk"><a href="https://github.com/jonathanpopham/nightshift">github.com/jonathanpopham/nightshift</a></div>
       </div>
       <div class="pcard">
@@ -320,7 +320,7 @@ footer .links a{font-family:var(--mono);font-size:12.5px;margin-left:18px}
         <div class="lk"><span class="no">walkthrough available on request</span></div>
       </div>
     </div>
-    <p class="honest">Honest status: the stack is modular and already useful before every component is complete. Lockstep, Ontoloom, gatekit, ghostie, and Nightshift are public and working; TrailTracker is the mature private engine underneath. The loop closes end to end on the payroll example today; what remains is scaling regeneration past that one example. The vision on this page is the direction, and these are the parts already standing.</p>
+    <p class="honest">Honest status: the stack is modular and already useful before every component is complete. Lockstep, Ontoloom, gatekit, ghostie, and Nightshift are public and working; TrailTracker is the mature private engine underneath. The loop closes end to end on a first example today; what remains is scaling regeneration past it. The vision on this page is the direction, and these are the parts already standing.</p>
   </section>
 
   <hr class="rule">
